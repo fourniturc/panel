@@ -340,8 +340,9 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
       if (error) throw error
       setSubmitted(true)
       window.scrollTo({ top: 0, behavior: 'smooth' })
-    } catch (err) {
-      setSubmitError('Une erreur est survenue. Veuillez réessayer.')
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : JSON.stringify(err)
+      setSubmitError(`Erreur: ${msg}`)
       console.error(err)
     } finally {
       setSubmitting(false)
