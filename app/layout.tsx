@@ -1,12 +1,12 @@
 import type { Metadata } from "next";
-import { Inter } from "next/font/google";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "BEA — Formulaire de qualification projet",
-  description: "Building Excellence Africa — Qualifiez votre projet de construction",
+  title: "bea. — Formulaire de qualification projet",
+  description: "bea. Portail Client — Qualifiez votre projet de construction",
 };
 
 export default function RootLayout({
@@ -15,8 +15,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fr" className={`${inter.className} h-full antialiased`}>
-      <body className="min-h-full bg-white">{children}</body>
+    <html lang="fr" className={`${outfit.className} h-full antialiased`}>
+      <body className="min-h-full bg-black text-white">{children}</body>
     </html>
   );
 }
