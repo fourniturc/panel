@@ -6,7 +6,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { formSchema, FormData } from '@/lib/schema'
 import { supabase } from '@/lib/supabase'
 import {
-  PAYS, TYPE_PROJET, USAGE_PROJET, ETAPE_PROJET,
+  PAYS, DIAL_CODES, TYPE_PROJET, USAGE_PROJET, ETAPE_PROJET,
   TIMING_ACHAT, LOTS, PRIORITE, NIVEAU_FINITION, DOCUMENTS,
 } from '@/lib/schema'
 
@@ -316,7 +316,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const { register, handleSubmit, control, watch, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, control, watch, setValue, getValues, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nom_prenom: '', societe: '', pays: '', ville: '',
@@ -413,7 +413,19 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <FieldLabel icon={<IconGlobe />} label="Pays" required />
-                      <select {...register('pays')} className={inputCls} defaultValue="">
+                      <select
+                        {...register('pays', {
+                          onChange: (e) => {
+                            const dial = DIAL_CODES[e.target.value]
+                            if (!dial) return
+                            const current = getValues('whatsapp') || ''
+                            const rest = current.replace(/^\s*\+\d+\s*/, '').trim()
+                            setValue('whatsapp', rest ? `${dial} ${rest}` : `${dial} `, { shouldValidate: true })
+                          },
+                        })}
+                        className={inputCls}
+                        defaultValue=""
+                      >
                         <option value="" disabled>Sélectionner un pays</option>
                         {PAYS.map((p) => <option key={p} value={p}>{p}</option>)}
                       </select>
