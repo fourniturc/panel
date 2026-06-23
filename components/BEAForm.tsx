@@ -324,7 +324,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
       type_projet: [], usage_projet: [],
       etape_projet: '', timing_achat: '',
       lots: [],
-      surface: '', nb_appartements: '', priorite: '', niveau_finition: '',
+      surface: '', nb_appartements: '', priorite: [], niveau_finition: '',
       documents: [],
     },
     mode: 'onTouched',
@@ -593,7 +593,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
 
                   <div>
                     <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
-                      Priorité principale <span className="text-[#ff3b30]">*</span>
+                      Priorités principales <span className="text-[#ff3b30]">*</span>
                     </p>
                     <Controller
                       control={control}
@@ -601,7 +601,16 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                       render={({ field }) => (
                         <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                           {PRIORITE.map((opt) => (
-                            <RadioPill key={opt} label={opt} checked={field.value === opt} onChange={() => field.onChange(opt)} />
+                            <CheckboxPill
+                              key={opt} label={opt}
+                              checked={field.value.includes(opt)}
+                              onChange={() => {
+                                const v = field.value.includes(opt)
+                                  ? field.value.filter((x) => x !== opt)
+                                  : [...field.value, opt]
+                                field.onChange(v)
+                              }}
+                            />
                           ))}
                         </div>
                       )}

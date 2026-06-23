@@ -21,7 +21,7 @@ export const formSchema = z.object({
   // Step 4
   surface: z.string().min(1, 'Champ requis'),
   nb_appartements: z.string().min(1, 'Champ requis'),
-  priorite: z.string().min(1, 'Champ requis'),
+  priorite: z.array(z.string()).min(1, 'Veuillez sélectionner au moins une priorité'),
   niveau_finition: z.string().min(1, 'Champ requis'),
 
   // Step 5
