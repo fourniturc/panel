@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="fr" className={`${outfit.className} h-full antialiased`}>
-      <body className="min-h-full bg-black text-white">{children}</body>
+      <body className="min-h-full bg-[#f4f4f5] text-[#18181b]">{children}</body>
     </html>
   );
 }

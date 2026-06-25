@@ -1,18 +1,18 @@
 @import "tailwindcss";
 
 :root {
-  color-scheme: dark;
+  color-scheme: light;
 
-  /* bea. brand palette (dark theme) */
-  --bea-bg: #000000;
-  --bea-surface: #1e1e1e;
-  --bea-surface-2: #292929;
-  --bea-border: #333333;
+  /* bea. brand palette (light theme) */
+  --bea-bg: #f4f4f5;
+  --bea-surface: #ffffff;
+  --bea-surface-2: #f4f4f5;
+  --bea-border: #e4e4e7;
   --bea-red: #ff3b30;
   --bea-red-hover: #ff5247;
-  --bea-text: #ffffff;
-  --bea-text-2: #b5b5b5;
-  --bea-muted: #6f6f6f;
+  --bea-text: #18181b;
+  --bea-text-2: #52525b;
+  --bea-muted: #71717a;
 
   --background: var(--bea-bg);
   --foreground: var(--bea-text);

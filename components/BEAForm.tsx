@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, memo } from 'react'
 import { useForm, SubmitHandler, Controller } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { formSchema, FormData } from '@/lib/schema'
@@ -94,11 +94,10 @@ function IconTelegram() {
 function BeaLogo({ subtitle = true }: { subtitle?: boolean }) {
   return (
     <div className="flex flex-col leading-none">
-      <span className="text-3xl font-extrabold tracking-tight text-white">
-        bea<span style={{ color: '#ff3b30' }}>.</span>
-      </span>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src="/bea-logo.png" alt="bea." width={360} height={142} className="h-9 w-auto self-start" fetchPriority="high" />
       {subtitle && (
-        <span className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#6f6f6f]">
+        <span className="mt-1.5 text-[10px] font-semibold uppercase tracking-[0.25em] text-[#71717a]">
           Portail Client
         </span>
       )}
@@ -107,11 +106,11 @@ function BeaLogo({ subtitle = true }: { subtitle?: boolean }) {
 }
 
 // ─── Reusable field components ─────────────────────────────────────────────────
-const inputCls = 'w-full px-3 py-2.5 text-sm rounded-lg transition-colors bg-[#292929] border border-[#333333] text-white placeholder:text-[#6f6f6f] focus:outline-none focus:border-[#ff3b30] focus:ring-1 focus:ring-[#ff3b30]'
+const inputCls = 'w-full px-3 py-2.5 text-sm rounded-lg transition-colors bg-[#f4f4f5] border border-[#e4e4e7] text-[#18181b] placeholder:text-[#71717a] focus:outline-none focus:border-[#ff3b30] focus:ring-1 focus:ring-[#ff3b30]'
 
 function FieldLabel({ icon, label, required }: { icon: React.ReactNode; label: string; required?: boolean }) {
   return (
-    <label className="flex items-center gap-1.5 text-xs font-semibold text-white uppercase tracking-wide mb-1.5">
+    <label className="flex items-center gap-1.5 text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-1.5">
       <span className="text-[#ff3b30]">{icon}</span>
       {label}
       {required && <span className="text-[#ff3b30] ml-0.5">*</span>}
@@ -121,19 +120,20 @@ function FieldLabel({ icon, label, required }: { icon: React.ReactNode; label: s
 
 function FieldError({ msg }: { msg?: string }) {
   if (!msg) return null
-  return <p className="mt-1 text-xs text-[#ff8a80]">{msg}</p>
+  return <p className="mt-1 text-xs text-[#dc2626]">{msg}</p>
 }
 
 function CheckboxPill({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
     <label
-      className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border cursor-pointer select-none text-sm transition-all ${
-        checked ? 'border-[#ff3b30] bg-[#ff3b30] text-white' : 'border-[#333333] bg-[#292929] text-[#b5b5b5] hover:border-[#ff3b30]'
+      style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+      className={`flex items-center gap-2 px-3 py-2.5 rounded-lg border cursor-pointer select-none text-sm transition-colors duration-75 active:scale-[0.98] ${
+        checked ? 'border-[#ff3b30] bg-[#ff3b30] text-white' : 'border-[#e4e4e7] bg-[#f4f4f5] text-[#52525b] hover:border-[#ff3b30] active:border-[#ff3b30]'
       }`}
     >
       <input type="checkbox" checked={checked} onChange={onChange} className="sr-only" />
       <span className={`w-4 h-4 rounded border flex items-center justify-center shrink-0 transition-colors ${
-        checked ? 'bg-white border-white' : 'border-[#4a4a4a]'
+        checked ? 'bg-white border-white' : 'border-[#a1a1aa]'
       }`}>
         {checked && <svg className="w-2.5 h-2.5" style={{ color: '#ff3b30' }} fill="none" viewBox="0 0 10 8">
           <path d="M1 4l3 3 5-6" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" />
@@ -147,13 +147,14 @@ function CheckboxPill({ label, checked, onChange }: { label: string; checked: bo
 function RadioPill({ label, checked, onChange }: { label: string; checked: boolean; onChange: () => void }) {
   return (
     <label
-      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border cursor-pointer select-none text-sm transition-all ${
-        checked ? 'border-[#ff3b30] bg-[#ff3b30] text-white' : 'border-[#333333] bg-[#292929] text-[#b5b5b5] hover:border-[#ff3b30]'
+      style={{ touchAction: 'manipulation', WebkitTapHighlightColor: 'transparent' }}
+      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-lg border cursor-pointer select-none text-sm transition-colors duration-75 active:scale-[0.98] ${
+        checked ? 'border-[#ff3b30] bg-[#ff3b30] text-white' : 'border-[#e4e4e7] bg-[#f4f4f5] text-[#52525b] hover:border-[#ff3b30] active:border-[#ff3b30]'
       }`}
     >
       <input type="radio" checked={checked} onChange={onChange} className="sr-only" />
       <span className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 transition-colors ${
-        checked ? 'border-white' : 'border-[#4a4a4a]'
+        checked ? 'border-white' : 'border-[#a1a1aa]'
       }`}>
         {checked && <span className="w-1.5 h-1.5 rounded-full bg-white" />}
       </span>
@@ -164,25 +165,26 @@ function RadioPill({ label, checked, onChange }: { label: string; checked: boole
 
 function SectionHeader({ number, title }: { number: string; title: string }) {
   return (
-    <div className="flex items-center gap-3 px-5 py-3.5 rounded-t-xl border-b border-[#333333]" style={{ backgroundColor: '#292929' }}>
+    <div className="flex items-center gap-3 px-5 py-3.5 rounded-t-xl border-b border-[#e4e4e7]" style={{ backgroundColor: '#f4f4f5' }}>
       <span className="w-7 h-7 rounded-full flex items-center justify-center text-xs font-black text-white shrink-0" style={{ backgroundColor: '#ff3b30' }}>
         {number}
       </span>
-      <h2 className="text-sm font-bold text-white uppercase tracking-wider">{title}</h2>
+      <h2 className="text-sm font-bold text-[#18181b] uppercase tracking-wider">{title}</h2>
     </div>
   )
 }
 
 // ─── Sidebar ───────────────────────────────────────────────────────────────────
-function Sidebar() {
+// Static content — memoized so form-state changes (pill toggles, validation) don't re-render it.
+const Sidebar = memo(function Sidebar() {
   return (
     <aside className="space-y-4">
       {/* OBJECTIF */}
-      <div className="rounded-xl overflow-hidden shadow-sm border border-[#333333]">
-        <div className="px-4 py-3 border-b border-[#333333]" style={{ backgroundColor: '#292929' }}>
-          <h3 className="text-xs font-black text-white uppercase tracking-widest">Objectif</h3>
+      <div className="rounded-xl overflow-hidden shadow-sm border border-[#e4e4e7]">
+        <div className="px-4 py-3 border-b border-[#e4e4e7]" style={{ backgroundColor: '#f4f4f5' }}>
+          <h3 className="text-xs font-black text-[#18181b] uppercase tracking-widest">Objectif</h3>
         </div>
-        <div className="bg-[#1e1e1e] px-4 py-4 space-y-2.5">
+        <div className="bg-[#ffffff] px-4 py-4 space-y-2.5">
           {[
             'Comprendre votre projet en détail',
             'Identifier vos besoins réels',
@@ -193,18 +195,18 @@ function Sidebar() {
               <span className="mt-0.5 w-5 h-5 rounded-full flex items-center justify-center shrink-0" style={{ backgroundColor: '#ff3b30' }}>
                 <IconCheck />
               </span>
-              <span className="text-sm text-[#b5b5b5]">{item}</span>
+              <span className="text-sm text-[#52525b]">{item}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* POURQUOI CES INFORMATIONS */}
-      <div className="rounded-xl overflow-hidden shadow-sm border border-[#333333]">
-        <div className="px-4 py-3 border-b border-[#333333]" style={{ backgroundColor: '#292929' }}>
-          <h3 className="text-xs font-black text-white uppercase tracking-widest">Pourquoi ces informations ?</h3>
+      <div className="rounded-xl overflow-hidden shadow-sm border border-[#e4e4e7]">
+        <div className="px-4 py-3 border-b border-[#e4e4e7]" style={{ backgroundColor: '#f4f4f5' }}>
+          <h3 className="text-xs font-black text-[#18181b] uppercase tracking-widest">Pourquoi ces informations ?</h3>
         </div>
-        <div className="bg-[#1e1e1e] px-4 py-4 space-y-3">
+        <div className="bg-[#ffffff] px-4 py-4 space-y-3">
           {[
             { bloc: 'BLOC 1', desc: 'Identifier qui vous êtes et comprendre votre contexte géographique et professionnel.' },
             { bloc: 'BLOC 2', desc: "Évaluer l'urgence et l'avancement du projet pour adapter notre réponse." },
@@ -216,18 +218,18 @@ function Sidebar() {
               <span className="inline-block text-[10px] font-black px-2 py-0.5 rounded mb-1 uppercase tracking-wider" style={{ backgroundColor: 'rgba(255,59,48,0.12)', color: '#ff3b30' }}>
                 {bloc}
               </span>
-              <p className="text-xs text-[#6f6f6f] leading-relaxed">{desc}</p>
+              <p className="text-xs text-[#71717a] leading-relaxed">{desc}</p>
             </div>
           ))}
         </div>
       </div>
 
       {/* APRÈS LE FORMULAIRE */}
-      <div className="rounded-xl overflow-hidden shadow-sm border border-[#333333]">
-        <div className="px-4 py-3 border-b border-[#333333]" style={{ backgroundColor: '#292929' }}>
-          <h3 className="text-xs font-black text-white uppercase tracking-widest">Après le formulaire</h3>
+      <div className="rounded-xl overflow-hidden shadow-sm border border-[#e4e4e7]">
+        <div className="px-4 py-3 border-b border-[#e4e4e7]" style={{ backgroundColor: '#f4f4f5' }}>
+          <h3 className="text-xs font-black text-[#18181b] uppercase tracking-widest">Après le formulaire</h3>
         </div>
-        <div className="bg-[#1e1e1e] px-4 py-4 space-y-3">
+        <div className="bg-[#ffffff] px-4 py-4 space-y-3">
           {[
             { n: '01', label: 'Analyse de votre projet par notre équipe' },
             { n: '02', label: 'Orientation stratégique préparée' },
@@ -236,19 +238,19 @@ function Sidebar() {
           ].map(({ n, label }) => (
             <div key={n} className="flex items-start gap-3">
               <span className="text-xs font-black shrink-0 mt-0.5" style={{ color: '#ff3b30' }}>{n}</span>
-              <span className="text-sm text-[#b5b5b5]">{label}</span>
+              <span className="text-sm text-[#52525b]">{label}</span>
             </div>
           ))}
         </div>
       </div>
 
       {/* BESOIN D'AIDE */}
-      <div className="rounded-xl overflow-hidden shadow-sm border border-[#333333]">
-        <div className="px-4 py-3 border-b border-[#333333]" style={{ backgroundColor: '#292929' }}>
-          <h3 className="text-xs font-black text-white uppercase tracking-widest">Besoin d&apos;aide ?</h3>
+      <div className="rounded-xl overflow-hidden shadow-sm border border-[#e4e4e7]">
+        <div className="px-4 py-3 border-b border-[#e4e4e7]" style={{ backgroundColor: '#f4f4f5' }}>
+          <h3 className="text-xs font-black text-[#18181b] uppercase tracking-widest">Besoin d&apos;aide ?</h3>
         </div>
-        <div className="bg-[#1e1e1e] px-4 py-4">
-          <p className="text-xs text-[#6f6f6f] mb-3">Une question sur le formulaire ? Contactez-nous directement sur WhatsApp.</p>
+        <div className="bg-[#ffffff] px-4 py-4">
+          <p className="text-xs text-[#71717a] mb-3">Une question sur le formulaire ? Contactez-nous directement sur WhatsApp.</p>
           <a
             href="https://wa.me/33600000000"
             target="_blank"
@@ -263,28 +265,28 @@ function Sidebar() {
       </div>
     </aside>
   )
-}
+})
 
 // ─── Success screen ────────────────────────────────────────────────────────────
 function SuccessScreen() {
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#000000' }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#f4f4f5' }}>
       {/* Header */}
-      <header className="px-6 py-5 border-b border-[#333333]" style={{ backgroundColor: '#000000' }}>
+      <header className="px-6 py-5 border-b border-[#e4e4e7]" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-6xl mx-auto flex items-center gap-4">
           <BeaLogo />
         </div>
       </header>
 
       <div className="flex-1 flex items-center justify-center px-4 py-16">
-        <div className="rounded-2xl shadow-lg p-10 max-w-lg w-full text-center border border-[#333333]" style={{ backgroundColor: '#1e1e1e' }}>
+        <div className="rounded-2xl shadow-lg p-10 max-w-lg w-full text-center border border-[#e4e4e7]" style={{ backgroundColor: '#ffffff' }}>
           <div className="w-16 h-16 rounded-full mx-auto mb-5 flex items-center justify-center" style={{ backgroundColor: '#ff3b30' }}>
             <svg className="w-8 h-8 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h2 className="text-2xl font-black mb-3 text-white">Merci !</h2>
-          <p className="text-[#b5b5b5] leading-relaxed text-sm mb-6">
+          <h2 className="text-2xl font-black mb-3 text-[#18181b]">Merci !</h2>
+          <p className="text-[#52525b] leading-relaxed text-sm mb-6">
             Notre équipe va maintenant analyser votre projet afin de préparer une première orientation stratégique. Vous serez recontacté très rapidement.
           </p>
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border-2 text-xs font-black tracking-widest uppercase" style={{ borderColor: '#ff3b30', color: '#ff3b30' }}>
@@ -294,9 +296,9 @@ function SuccessScreen() {
         </div>
       </div>
 
-      <footer className="px-6 py-4 border-t border-[#333333]" style={{ backgroundColor: '#000000' }}>
+      <footer className="px-6 py-4 border-t border-[#e4e4e7]" style={{ backgroundColor: '#ffffff' }}>
         <div className="max-w-6xl mx-auto flex items-center justify-between">
-          <div className="flex items-center gap-2 text-[#6f6f6f] text-sm">
+          <div className="flex items-center gap-2 text-[#71717a] text-sm">
             <IconTelegram />
             <span>bea. — Portail Client</span>
           </div>
@@ -316,7 +318,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
   const [submitting, setSubmitting] = useState(false)
   const [submitError, setSubmitError] = useState<string | null>(null)
 
-  const { register, handleSubmit, control, watch, setValue, getValues, formState: { errors } } = useForm<FormData>({
+  const { register, handleSubmit, control, setValue, getValues, formState: { errors } } = useForm<FormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nom_prenom: '', societe: '', pays: '', ville: '',
@@ -367,16 +369,16 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
   if (submitted) return <SuccessScreen />
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#000000' }}>
+    <div className="min-h-screen flex flex-col" style={{ backgroundColor: '#f4f4f5' }}>
 
       {/* ── PAGE HEADER ─────────────────────────────────────────────────────── */}
       {!embed && (
-        <header className="px-6 py-6 border-b border-[#333333]" style={{ backgroundColor: '#000000' }}>
+        <header className="px-6 py-6 border-b border-[#e4e4e7]" style={{ backgroundColor: '#ffffff' }}>
           <div className="max-w-6xl mx-auto">
             <div className="mb-5">
               <BeaLogo />
             </div>
-            <h1 className="text-white font-black text-xl tracking-wide uppercase mb-2">
+            <h1 className="text-[#18181b] font-black text-xl tracking-wide uppercase mb-2">
               Formulaire de qualification
             </h1>
             <p className="text-sm font-semibold uppercase tracking-widest" style={{ color: '#ff3b30' }}>
@@ -395,9 +397,9 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
             <div className="flex-1 min-w-0 space-y-6">
 
               {/* ── SECTION 1 ─ INFORMATIONS GÉNÉRALES ─────────────────────── */}
-              <div className="rounded-xl shadow-sm overflow-hidden border border-[#333333]">
+              <div className="rounded-xl shadow-sm overflow-hidden border border-[#e4e4e7]">
                 <SectionHeader number="1" title="Informations générales" />
-                <div className="bg-[#1e1e1e] px-5 py-5 space-y-4">
+                <div className="bg-[#ffffff] px-5 py-5 space-y-4">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <FieldLabel icon={<IconPerson />} label="Nom / Prénom" required />
@@ -502,11 +504,11 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
               </div>
 
               {/* ── SECTION 2 ─ ÉTAT DU PROJET ──────────────────────────────── */}
-              <div className="rounded-xl shadow-sm overflow-hidden border border-[#333333]">
+              <div className="rounded-xl shadow-sm overflow-hidden border border-[#e4e4e7]">
                 <SectionHeader number="2" title="État du projet" />
-                <div className="bg-[#1e1e1e] px-5 py-5 space-y-5">
+                <div className="bg-[#ffffff] px-5 py-5 space-y-5">
                   <div>
-                    <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                    <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                       À quelle étape en est votre projet ? <span className="text-[#ff3b30]">*</span>
                     </p>
                     <Controller
@@ -524,7 +526,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                   </div>
 
                   <div>
-                    <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                    <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                       Quel est votre timing d&apos;achat ? <span className="text-[#ff3b30]">*</span>
                     </p>
                     <Controller
@@ -544,10 +546,10 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
               </div>
 
               {/* ── SECTION 3 ─ LOTS CONCERNÉS ──────────────────────────────── */}
-              <div className="rounded-xl shadow-sm overflow-hidden border border-[#333333]">
+              <div className="rounded-xl shadow-sm overflow-hidden border border-[#e4e4e7]">
                 <SectionHeader number="3" title="Lots concernés" />
-                <div className="bg-[#1e1e1e] px-5 py-5">
-                  <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                <div className="bg-[#ffffff] px-5 py-5">
+                  <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                     Quels lots vous intéressent ? <span className="text-[#ff3b30]">*</span>
                   </p>
                   <Controller
@@ -575,9 +577,9 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
               </div>
 
               {/* ── SECTION 4 ─ BUDGET & SURFACE ────────────────────────────── */}
-              <div className="rounded-xl shadow-sm overflow-hidden border border-[#333333]">
+              <div className="rounded-xl shadow-sm overflow-hidden border border-[#e4e4e7]">
                 <SectionHeader number="4" title="Budget & Surface" />
-                <div className="bg-[#1e1e1e] px-5 py-5 space-y-5">
+                <div className="bg-[#ffffff] px-5 py-5 space-y-5">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <FieldLabel icon={<IconRuler />} label="Surface approximative" required />
@@ -592,7 +594,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                   </div>
 
                   <div>
-                    <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                    <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                       Priorités principales <span className="text-[#ff3b30]">*</span>
                     </p>
                     <Controller
@@ -619,7 +621,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                   </div>
 
                   <div>
-                    <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                    <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                       Niveau de finition <span className="text-[#ff3b30]">*</span>
                     </p>
                     <Controller
@@ -639,10 +641,10 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
               </div>
 
               {/* ── SECTION 5 ─ DOCUMENTS ───────────────────────────────────── */}
-              <div className="rounded-xl shadow-sm overflow-hidden border border-[#333333]">
+              <div className="rounded-xl shadow-sm overflow-hidden border border-[#e4e4e7]">
                 <SectionHeader number="5" title="Documents disponibles" />
-                <div className="bg-[#1e1e1e] px-5 py-5">
-                  <p className="text-xs font-semibold text-white uppercase tracking-wide mb-2.5">
+                <div className="bg-[#ffffff] px-5 py-5">
+                  <p className="text-xs font-semibold text-[#18181b] uppercase tracking-wide mb-2.5">
                     Quels documents avez-vous déjà ?
                   </p>
                   <Controller
@@ -669,7 +671,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
 
               {/* ── SUBMIT ──────────────────────────────────────────────────── */}
               {submitError && (
-                <div className="p-3 rounded-lg text-sm text-[#ff8a80]" style={{ backgroundColor: 'rgba(255,59,48,0.08)', border: '1px solid #5c1a14' }}>
+                <div className="p-3 rounded-lg text-sm text-[#dc2626]" style={{ backgroundColor: 'rgba(255,59,48,0.08)', border: '1px solid #fca5a5' }}>
                   {submitError}
                 </div>
               )}
@@ -682,7 +684,7 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
                 {submitting ? 'Envoi en cours…' : '→ Soumettre mon projet'}
               </button>
 
-              <p className="text-center text-xs text-[#6f6f6f] flex items-center justify-center gap-1.5">
+              <p className="text-center text-xs text-[#71717a] flex items-center justify-center gap-1.5">
                 <IconShield />
                 Informations 100% confidentielles — jamais revendues
               </p>
@@ -699,9 +701,9 @@ export default function BEAForm({ embed = false }: { embed?: boolean }) {
 
       {/* ── FOOTER ──────────────────────────────────────────────────────────── */}
       {!embed && (
-        <footer className="px-6 py-5 mt-4 border-t border-[#333333]" style={{ backgroundColor: '#000000' }}>
+        <footer className="px-6 py-5 mt-4 border-t border-[#e4e4e7]" style={{ backgroundColor: '#ffffff' }}>
           <div className="max-w-6xl mx-auto flex flex-wrap items-center justify-between gap-3">
-            <div className="flex items-center gap-2 text-[#6f6f6f] text-sm">
+            <div className="flex items-center gap-2 text-[#71717a] text-sm">
               <IconTelegram />
               <span>bea. — Formulaire de qualification</span>
             </div>
